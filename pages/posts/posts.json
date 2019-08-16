@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "overlay":"../../components/overlay"
+  },
+  "navigationBarTitleText":"文与字",
+  "navigationBarTextStyle":"white"
+}

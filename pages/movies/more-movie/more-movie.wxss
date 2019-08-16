@@ -1,0 +1,8 @@
+/* pages/movies/more-movie/more-movie.wxss */
+@import "/pages/movies/movie/movie-template.wxss";
+.movie-list-content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin:20rpx 0;
+}

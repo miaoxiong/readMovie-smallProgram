@@ -1,0 +1,21 @@
+<!--pages/posts/posts.wxml-->
+<import src="./post-item/post-item-template.wxml" />
+<view class="page-section page-section-spacing swiper">
+  <swiper catchtap="onPostLun" indicator-dots="true" autoplay="true" interval="5000">
+    <swiper-item >
+      <image  data-index="4" src="/images/wx.png"></image>
+    </swiper-item>
+    <swiper-item>
+      <image  data-index="1" src="/images/vr.png"></image>
+    </swiper-item>
+    <swiper-item>
+      <image  data-index="2" src="/images/iqiyi.png"></image>
+    </swiper-item>
+  </swiper>
+  <block wx:for="{{postList}}" wx:for-item="item" wx:key="{{item.id}}">
+    <view catchtap="onPostTap" data-postId="{{item.post_id}}">
+      <template is="post-item" data="{{...item}}" />
+    </view>
+  </block>
+  <overlay content="父组件传递值"></overlay>
+</view>

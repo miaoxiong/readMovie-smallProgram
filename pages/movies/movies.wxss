@@ -1,0 +1,10 @@
+/* pages/movies/movies.wxss */
+@import "/pages/movies/movie/movie-template.wxss";
+@import "/pages/movies/movie-list/movie-list-template.wxss";
+
+.movies-container{
+  background-color: #f2f2f2;
+}
+.search{
+  /* background-color: #fff; */
+}

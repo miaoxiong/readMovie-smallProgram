@@ -1,0 +1,11 @@
+<!--pages/movies/movies.wxml-->
+<import src="./movie/movie-template.wxml" />
+<import src="./movie-list/movie-list-template.wxml" />
+<view class="movies">
+  <!-- <text class="search">movie</text> -->
+  <view class="movies-container">
+    <template is="movieListTemplate" data="{{...top}}"></template>
+    <template is="movieListTemplate" data="{{...coming}}"></template>
+    <template is="movieListTemplate" data="{{...inTheater}}"></template>
+  </view>
+</view>

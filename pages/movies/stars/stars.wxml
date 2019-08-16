@@ -1,0 +1,13 @@
+<template name="stars">
+  <view class="stars-container">
+    <view class="stars">
+      <block wx:for="{{realStars}}" wx:for-item="real" wx:key="{{real.id}}">
+        <image class="star" src="/images/icon/star.png"></image>
+      </block>
+      <block wx:for="{{nonStars}}" wx:for-item="non" wx:key="{{non.id}}">
+        <image class="star" src="/images/icon/none-star.png"> </image>
+      </block>
+    </view>
+    <view class="star-score">{{score}}</view>
+  </view>
+</template>

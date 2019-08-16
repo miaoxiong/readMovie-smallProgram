@@ -1,0 +1,9 @@
+<!--pages/movies/movie/movie-template.wxml-->
+<import src="../stars/stars.wxml" />
+<template name="movieTemplate">
+  <view class="movie">
+    <image class="movie-bg" src="{{imgUrl}}"></image>
+    <text class="movie-title">{{title}}</text>
+    <template is="stars" data="{{score:average,realStars,nonStars}}"></template>
+  </view>
+</template>

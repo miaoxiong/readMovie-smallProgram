@@ -1,0 +1,33 @@
+
+.movie-list-header{
+  padding:30rpx 20rpx 22rpx;
+  font-size: 24rpx;
+}
+
+.movie-list-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.movie{
+  /* flex:1; */
+}
+
+image.more-img{
+  width:9rpx;
+  height:16rpx;
+}
+
+.more{
+  float:right;
+}
+.more-text{
+  margin-right:15rpx;
+  color:#1f4ba5;
+}
+
+.movie-list-container{
+  background-color: #fff;
+  margin-bottom:40rpx;
+}

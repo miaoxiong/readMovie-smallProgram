@@ -1,0 +1,5 @@
+<!--overlay.wxml-->
+<view class="overlay">
+  <text class="name">this is component</text>
+  <text class="content">{{content}}</text>
+</view>

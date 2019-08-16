@@ -1,0 +1,9 @@
+<!--pages/welcom/welcom.wxml-->
+<!-- test -->
+<view class="content">
+  <image class="user-avatar" src="/images/avatar/5.png"></image>
+  <text class="user-name">Hello,panda</text>
+  <view class="moto-container" bindtap="onTap">
+    <text class="moto">开启小程序之旅</text>
+  </view>
+</view>
