@@ -136,5 +136,13 @@ Page({
     this.setData({
       containerShow: true
     })
+  },
+  toDetail(event) {
+    // console.log(event)
+    const id = event.currentTarget.dataset.movieid
+    // console.log(id)
+    wx.navigateTo({
+      url: 'movie-detail/movie-detail?movieId=' + id,
+    })
   }
 })
