@@ -2,10 +2,26 @@
 <import src="./movie/movie-template.wxml" />
 <import src="./movie-list/movie-list-template.wxml" />
 <view class="movies">
-  <!-- <text class="search">movie</text> -->
-  <view class="movies-container">
-    <template is="movieListTemplate" data="{{...top}}"></template>
-    <template is="movieListTemplate" data="{{...coming}}"></template>
-    <template is="movieListTemplate" data="{{...inTheater}}"></template>
+  <view class="search">
+    <icon class="search-img" type="search" size="13" color="#405f80"></icon>
+    <input placeholder="请输入要搜索的电影" placeholder-class="placeholder" bindfocus="bindFocus">movie</input>
+    <image wx:if="{{!containerShow}}" class="close-img" src="/images/icon/xx.png" bindtap="closeSeach"></image>
   </view>
+  
+  <view class="movies-container" wx:if="{{containerShow}}">
+    <block wx:if="{{err}}">
+      <view>{{msg}}</view>
+    </block>
+    <block wx:if="{{!err}}">
+      <template is="movieListTemplate" data="{{...top}}"></template>
+      <template is="movieListTemplate" data="{{...coming}}"></template>
+      <template is="movieListTemplate" data="{{...inTheater}}"></template>
+    </block> 
+  </view>
+</view>
+
+<view wx:if="{{!containerShow}}" class="searchTab">
+  <block wx:for="{{search}}" wx:for-item="item" wx:key="{{item.id}}">
+      <template is="movieTemplate" data="{{...item}}"></template>
+    </block>
 </view>

@@ -1,12 +1,18 @@
 // pages/movies/more-movie/more-movie.js
-const app = getApp();
+const app = getApp()
+
+const inTheaterUrl = app.globalData.doubanAPIBase + '/v2/movie/in_theaters',comingUrl = app.globalData.doubanAPIBase + '/v2/movie/coming_soon',topUrl = app.globalData.doubanAPIBase + '/v2/movie/top250'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    movies:{}
+    movies:{},
+    totalCount:0,
+    isEmpty:true,
+    type:'',
+    url:''
   },
 
   /**
@@ -19,26 +25,12 @@ Page({
     })
     //当前电影类型
     let type = params[0]
+    this.data.type = type
 
-    let self = this, url;
-    let inTheaterUrl = app.globalData.doubanAPIBase + '/v2/movie/in_theaters'
-    let comingUrl = app.globalData.doubanAPIBase + '/v2/movie/coming_soon'
-    let topUrl = app.globalData.doubanAPIBase + '/v2/movie/top250'
-    switch(type) {
-      case 'top':
-        url = topUrl;
-        break;
-      case 'coming':
-        url = comingUrl;
-        break;
-      case 'inTheater':
-        url = inTheaterUrl;
-        break;
-      default:
-        break;
-    }
+    let self = this
+    this.data.url = this.getReactUrl()
     wx.showLoading({ title: '加载中', icon: 'loading', duration: 10000 });
-    this.getMovieData(url, type)
+    this.getMovieData()
   },
 
   /**
@@ -47,8 +39,9 @@ Page({
   onReady: function () {
 
   },
-  getMovieData(url, type) {
+  getMovieData() {
     let self = this;
+    let url = this.data.url+'?start='+this.data.totalCount+'&count=18';
     wx.request({
       url,
       method: 'GET',
@@ -69,10 +62,35 @@ Page({
             id: item.id
           })
         })
-        self.setData({ movies: arr})
+        let totalMovies = arr;
+
+        if(self.data.isEmpty){
+          self.data.isEmpty = false
+        }
+        else{
+          totalMovies = self.data.movies.concat(arr)
+        }
+        self.setData({ movies: totalMovies})
+        self.data.totalCount += 20
+        wx.hideNavigationBarLoading()
         wx.hideLoading()
+        wx.stopPullDownRefresh()
       },
     })
+  },
+
+  getReactUrl() {
+    const type = this.data.type
+    switch (type) {
+      case 'top':
+        return topUrl;
+      case 'coming':
+        return comingUrl;
+      case 'inTheater':
+        return inTheaterUrl;
+      default:
+        return topUrl;
+    }
   },
 
   /**
@@ -100,7 +118,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    wx.startPullDownRefresh()
+    this.data.totalCount = 0;
+    this.data.isEmpty = true
+    this.getMovieData() 
   },
 
   /**
@@ -108,6 +128,8 @@ Page({
    */
   onReachBottom: function () {
     console.log('bottom')
+    wx.showNavigationBarLoading()
+    this.getMovieData() 
   },
 
   /**

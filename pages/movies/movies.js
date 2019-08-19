@@ -1,5 +1,6 @@
 // pages/movies/movies.js
 const app = getApp();
+const inTheaterUrl = app.globalData.doubanAPIBase + '/v2/movie/in_theaters?start=0&count=3', comingSoonUrl = app.globalData.doubanAPIBase + '/v2/movie/coming_soon?start=0&count=3', top250Url = app.globalData.doubanAPIBase + '/v2/movie/top250?start=0&count=3', seachUrl = app.globalData.doubanAPIBase + '/v2/movie/search?q='
 Page({
   // restful api json
   // soap xml
@@ -9,19 +10,21 @@ Page({
   data: {
     top:'',
     coming:'',
-    inTheater:''
+    inTheater:'',
+    err:false,
+    msg:'',
+    containerShow:true,
+    search:{}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.render()
+  },
+  render() {
     let self = this;
-    let inTheaterUrl = app.globalData.doubanAPIBase + '/v2/movie/in_theaters?start=0&count=3'
-    let comingSoonUrl = app.globalData.doubanAPIBase + '/v2/movie/coming_soon?start=0&count=3'
-    let top250Url = app.globalData.doubanAPIBase + '/v2/movie/top250?start=0&count=3'
-
-
     wx.showLoading({ title: '加载中', icon: 'loading', duration: 10000 });
     this.getMovieData(inTheaterUrl, 'inTheater')
     this.getMovieData(comingSoonUrl, 'coming')
@@ -36,27 +39,30 @@ Page({
         'content-type': 'aplication/json'
       },
       success(res) {
-        let {subjects, title} = res.data
-        console.log(subjects,title)
-        let arr = []
-        subjects.forEach( item => {
-          let realCounts = Math.round(item.rating.average / 2)
-          arr.push({
-            title: item.title.length > 6 ? item.title.substring(0,6) + '...' : item.title,
-            average: item.rating.average,
-            imgUrl: item.images.large,
-            realStars: new Array(realCounts).fill(1),
-            nonStars: new Array(5-realCounts).fill(1),
-            id:item.id
+        console.log(res)
+        let {subjects, title, code} = res.data
+        
+          let arr = []
+          subjects.forEach(item => {
+            let realCounts = Math.round(item.rating.average / 2)
+            arr.push({
+              title: item.title.length > 6 ? item.title.substring(0, 6) + '...' : item.title,
+              average: item.rating.average,
+              imgUrl: item.images.large,
+              realStars: new Array(realCounts).fill(1),
+              nonStars: new Array(5 - realCounts).fill(1),
+              id: item.id
+            })
           })
-        })
-        console.log(arr)
-        let tempObj = {}
-        tempObj[type] = Object.assign({}, { subjects: arr, title, type })
-        self.setData(tempObj)
+          let tempObj = {}
+          tempObj[type] = Object.assign({}, { subjects: arr, title, type })
+          self.setData(tempObj)
+        
+        
         if (self.data.hasOwnProperty('top') && self.data.hasOwnProperty('coming') && self.data.hasOwnProperty('inTheater')){
           wx.hideLoading()
         }
+        wx.stopPullDownRefresh()
       },
     })
   },
@@ -115,5 +121,20 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  bindFocus(event) {
+    console.log(event)
+    const searchStr = event.detail.value
+    this.setData({
+      containerShow: false
+    })
+    if (searchStr){
+      this.getMovieData(seachUrl + searchStr, 'search')
+    }
+  },
+  closeSeach() {
+    this.setData({
+      containerShow: true
+    })
   }
 })

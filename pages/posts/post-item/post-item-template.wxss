@@ -46,6 +46,7 @@
   letter-spacing: 2rpx;
   margin-left: 12rpx;
   margin-bottom: 12rpx;
+  text-indent: 2em;
 }
 
 .post-like {
